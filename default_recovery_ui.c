@@ -22,7 +22,9 @@
 
 char* MENU_HEADERS[] = { NULL };
 
-char* MENU_ITEMS[] = { "reboot system now",
+char* MENU_ITEMS[] = { "Boot default OS",
+						"Boot into Linux",
+						"Boot into Android",
                        "install zip",
                        "wipe data/factory reset",
                        "wipe cache partition",

@@ -20,7 +20,11 @@ LOCAL_SRC_FILES := \
     prop.c \
     default_recovery_ui.c \
     adb_install.c \
-    verifier.c
+    verifier.c \
+    specialreboot.c \
+    misc_rw.c
+    
+    
 
 ADDITIONAL_RECOVERY_FILES := $(shell echo $$ADDITIONAL_RECOVERY_FILES)
 LOCAL_SRC_FILES += $(ADDITIONAL_RECOVERY_FILES)
@@ -52,6 +56,7 @@ endif
 
 ifeq ($(BOARD_USE_CUSTOM_RECOVERY_FONT),)
   BOARD_USE_CUSTOM_RECOVERY_FONT := \"font_10x18.h\"
+#  BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_23x41.h\"
 endif
 
 BOARD_RECOVERY_CHAR_WIDTH := $(shell echo $(BOARD_USE_CUSTOM_RECOVERY_FONT) | cut -d _  -f 2 | cut -d . -f 1 | cut -d x -f 1)

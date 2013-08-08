@@ -68,6 +68,7 @@ static const char *CACHE_ROOT = "/cache";
 static const char *SDCARD_ROOT = "/sdcard";
 static int allow_display_toggle = 0;
 static int poweroff = 0;
+static int powerofftype = POWEROFF_DEFAULT;
 static const char *SDCARD_PACKAGE_FILE = "/sdcard/update.zip";
 static const char *TEMPORARY_LOG_FILE = "/tmp/recovery.log";
 static const char *SIDELOAD_TEMP_DIR = "/tmp/sideload";
@@ -709,6 +710,16 @@ prompt_and_wait() {
                 poweroff=0;
                 return;
 
+            case ITEM_REBOOT_LIN:
+                poweroff=0;
+                powerofftype=POWEROFF_LINUX;
+                return;
+
+            case ITEM_REBOOT_AND:
+                poweroff=0;
+                powerofftype=POWEROFF_ANDROID;
+                return;
+
             case ITEM_WIPE_DATA:
                 wipe_data(ui_text_visible());
                 if (!ui_text_visible()) return;
@@ -784,6 +795,9 @@ setup_adbd() {
     // Trigger (re)start of adb daemon
     property_set("service.adb.root", "1");
 }
+
+
+
 
 int
 main(int argc, char **argv) {
@@ -992,15 +1006,25 @@ main(int argc, char **argv) {
 
     sync();
     if(!poweroff) {
-        ui_print("Rebooting...\n");
-        android_reboot(ANDROID_RB_RESTART, 0, 0);
+    	if(powerofftype ==POWEROFF_LINUX) {
+    		ui_print("Booting into Linux...\n");
+    		special_reboot("linux");
+    	}else if(powerofftype ==POWEROFF_ANDROID){
+    		ui_print("Booting into Android...\n");
+    		special_reboot("android");
+    	}else{
+    		ui_print("Booting into default...\n");
+    		special_reboot("default");
+    	}
     }
     else {
-        ui_print("Shutting down...\n");
-        android_reboot(ANDROID_RB_POWEROFF, 0, 0);
+    	ui_print("Shutting down...\n");
+    	android_reboot(ANDROID_RB_POWEROFF, 0, 0);
     }
     return EXIT_SUCCESS;
 }
+
+
 
 int get_allow_toggle_display() {
     return allow_display_toggle;

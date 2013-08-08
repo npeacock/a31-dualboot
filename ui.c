@@ -53,9 +53,12 @@ static int gShowBackButton = 0;
 #define CHAR_WIDTH BOARD_RECOVERY_CHAR_WIDTH
 #define CHAR_HEIGHT BOARD_RECOVERY_CHAR_HEIGHT
 
+#define UI_WAIT_KEY_TIMEOUT_SEC_INITIAL    5
 #define UI_WAIT_KEY_TIMEOUT_SEC    3600
 #define UI_KEY_REPEAT_INTERVAL 80
 #define UI_KEY_WAIT_REPEAT 400
+
+static int initial_key = 1;
 
 UIParameters ui_parameters = {
     6,       // indeterminate progress bar frames
@@ -878,12 +881,19 @@ int ui_wait_key()
         gettimeofday(&now, NULL);
         timeout.tv_sec = now.tv_sec;
         timeout.tv_nsec = now.tv_usec * 1000;
-        timeout.tv_sec += UI_WAIT_KEY_TIMEOUT_SEC;
+        if(initial_key){
+        	timeout.tv_sec += UI_WAIT_KEY_TIMEOUT_SEC_INITIAL;
+        }else{
+        	timeout.tv_sec += UI_WAIT_KEY_TIMEOUT_SEC;
+        }
 
         int rc = 0;
         while (key_queue_len == 0 && rc != ETIMEDOUT) {
             rc = pthread_cond_timedwait(&key_queue_cond, &key_queue_mutex,
                                         &timeout);
+        }
+        if(rc == ETIMEDOUT && initial_key){
+        	special_reboot("default");
         }
     } while (usb_connected() && key_queue_len == 0);
 
@@ -891,6 +901,7 @@ int ui_wait_key()
     if (key_queue_len > 0) {
         key = key_queue[0];
         memcpy(&key_queue[0], &key_queue[1], sizeof(int) * --key_queue_len);
+        initial_key = 0;
     }
     pthread_mutex_unlock(&key_queue_mutex);
     return key;

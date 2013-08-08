@@ -73,17 +73,19 @@ int device_wipe_data();
 #define GO_BACK             -5
 
 #define ITEM_REBOOT          0
-#define ITEM_APPLY_EXT       1
-#define ITEM_APPLY_SDCARD    1  // historical synonym for ITEM_APPLY_EXT
-#define ITEM_APPLY_ZIP       1  // used for installing an update from a zip
-#define ITEM_WIPE_DATA       2
-#define ITEM_WIPE_CACHE      3
+#define ITEM_REBOOT_LIN      1
+#define ITEM_REBOOT_AND      2
+#define ITEM_APPLY_EXT       3
+#define ITEM_APPLY_SDCARD    3  // historical synonym for ITEM_APPLY_EXT
+#define ITEM_APPLY_ZIP       3  // used for installing an update from a zip
+#define ITEM_WIPE_DATA       4
+#define ITEM_WIPE_CACHE      5
 // unused in cwr
-#define ITEM_APPLY_CACHE     4
-#define ITEM_NANDROID        4
-#define ITEM_PARTITION       5
-#define ITEM_ADVANCED        6
-#define ITEM_POWEROFF        7
+#define ITEM_APPLY_CACHE     6
+#define ITEM_NANDROID        7
+#define ITEM_PARTITION       8
+#define ITEM_ADVANCED        9
+#define ITEM_POWEROFF        10
 
 // Header text to display above the main menu.
 extern char* MENU_HEADERS[];
@@ -101,5 +103,10 @@ void
 set_sdcard_update_bootloader_message();
 
 extern int ui_handle_key(int key, int visible);
+
+// Called to determine what system to boot into
+#define POWEROFF_DEFAULT 0
+#define POWEROFF_LINUX 1
+#define POWEROFF_ANDROID 2
 
 #endif
