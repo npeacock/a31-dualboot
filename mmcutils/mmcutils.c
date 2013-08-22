@@ -319,6 +319,8 @@ mmc_find_partition_by_name(const char *name)
 #define MKE2FS_BIN      "/sbin/mke2fs"
 #define TUNE2FS_BIN     "/sbin/tune2fs"
 #define E2FSCK_BIN      "/sbin/e2fsck"
+#define RESIZE2FS_BIN      "/sbin/resize2fs"
+
 
 int
 run_exec_process ( char **argv) {
@@ -382,6 +384,22 @@ format_ext2_device (const char *device) {
         return -1;
 
     return 0;
+}
+
+
+int resize_ext2_device (const char *device) {
+
+    // Run e2fsck
+    char *const e2fsck[] = {E2FSCK_BIN, "-fy", device, NULL};
+    if(run_exec_process(e2fsck))
+        return RESIZE_ERR_E2FS;
+
+    // Run resize2fs
+    char *const resize2fs[] = {RESIZE2FS_BIN, device, NULL};
+    if(run_exec_process(resize2fs))
+        return RESIZE_ERR_RESZ;
+
+    return RESIZE_ERR_NONE;
 }
 
 int

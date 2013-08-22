@@ -5,6 +5,7 @@ commands_recovery_local_path := $(LOCAL_PATH)
 # LOCAL_CPP_EXTENSION := .c
 
 LOCAL_SRC_FILES := \
+    mmcutils/mmcutils.c \
     recovery.c \
     bootloader.c \
     install.c \
@@ -22,7 +23,8 @@ LOCAL_SRC_FILES := \
     adb_install.c \
     verifier.c \
     specialreboot.c \
-    misc_rw.c
+    misc_rw.c 
+
     
     
 

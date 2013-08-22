@@ -48,6 +48,8 @@
 #include "flashutils/flashutils.h"
 #include "dedupe/dedupe.h"
 
+#include "mmcutils/mmcutils.h"
+
 struct selabel_handle *sehandle = NULL;
 
 static const struct option OPTIONS[] = {
@@ -135,6 +137,13 @@ extern UIParameters ui_parameters;    // from ui.c
 
 static const int MAX_ARG_LENGTH = 4096;
 static const int MAX_ARGS = 100;
+
+
+
+
+
+
+
 
 // open a given path, mounting partitions as necessary
 FILE*
@@ -680,6 +689,56 @@ wipe_data(int confirm) {
     ui_print("Data wipe complete.\n");
 }
 
+static void run_resize(){
+	int ret = 0;
+	static char* and_part  = "/dev/block/nandd"; // Android system partition
+	static char* lin_part  = "/dev/block/nandk"; // Linux system partition
+	static char* ext_part  = "/dev/block/nandm"; // Extra system partition
+	int doand=0,dolin=1,doext = 0;
+
+	if(doand){
+		ret = resize_ext2_device(and_part);
+		if(ret == RESIZE_ERR_RESZ){
+			// Resize failed
+			LOGE("Resize failed for %s\n", and_part);
+		}else  if(ret == RESIZE_ERR_E2FS){
+			// File system check failed
+			LOGE("File system check failed for %s\n", and_part);
+		}else{
+			// Its all good
+			LOGI("Resize successful for %s\n", and_part);
+		}
+	}
+
+	if(dolin){
+		ret = resize_ext_device(lin_part);
+		if(ret == RESIZE_ERR_RESZ){
+			// Resize failed
+			LOGE("Resize failed for %s\n", lin_part);
+		}else  if(ret == RESIZE_ERR_E2FS){
+			// File system check failed
+			LOGE("File system check failed for %s\n", lin_part);
+		}else{
+			// Its all good
+			LOGI("Resize successful for %s\n", lin_part);
+		}
+	}
+
+	if(doext){
+		ret = resize_ext_device(ext_part);
+		if(ret == RESIZE_ERR_RESZ){
+			// Resize failed
+			LOGE("Resize failed for %s\n", ext_part);
+		}else  if(ret == RESIZE_ERR_E2FS){
+			// File system check failed
+			LOGE("File system check failed for %s\n", ext_part);
+		}else{
+			// Its all good
+			LOGI("Resize successful for %s\n", ext_part);
+		}
+	}
+}
+
 int ui_menu_level = 1;
 int ui_root_menu = 0;
 static void
@@ -754,6 +813,10 @@ prompt_and_wait() {
             case ITEM_POWEROFF:
                 poweroff = 1;
                 return;
+
+            case ITEM_RESIZE:
+                run_resize();
+                break;
         }
     }
 }

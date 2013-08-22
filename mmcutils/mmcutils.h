@@ -73,6 +73,11 @@
 #define MMC_VFAT_TYPE 0xC
 typedef struct MmcPartition MmcPartition;
 
+
+#define RESIZE_ERR_NONE  0
+#define RESIZE_ERR_E2FS  -1
+#define RESIZE_ERR_RESZ  -2
+
 /* Functions */
 int mmc_scan_partitions();
 const MmcPartition *mmc_find_partition_by_name(const char *name);
@@ -85,6 +90,8 @@ int mmc_raw_write (const MmcPartition *partition, char *data, int data_size);
 
 int format_ext2_device(const char *device);
 int format_ext3_device(const char *device);
+
+//int resize_ext2_device(const char *device);
 
 #endif  // MMCUTILS_H_
 
