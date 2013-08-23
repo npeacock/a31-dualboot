@@ -1632,7 +1632,6 @@ void show_resize_menu()
 	static char* list[] = { "Resize nandd - Android system partition",
 			"Resize nandk - Linux partition",
 			"Resize nandm - Extra OS partition",
-			"Go Back",
 			NULL
 	};
 
@@ -1644,22 +1643,17 @@ void show_resize_menu()
 		switch (chosen_item)
 		{
 		case 0:
-			static char* and_part  = "/dev/block/nandd"; // Android system partition
-			resize_part(and_part);
+			//char* and_part  = ; // Android system partition
+			run_resize("/dev/block/nandd");
 			break;
 		case 1:
-			static char* lin_part  = "/dev/block/nandk"; // Linux system partition
-			resize_part(lin_part);
+			//char* lin_part  = ; // Linux system partition
+			run_resize("/dev/block/nandk");
 			break;
 		case 2:
-			static char* ext_part  = "/dev/block/nandm"; // Extra system partition
-			resize_part(ext_part);
+			//char* ext_part  = ; // Extra system partition
+			run_resize("/dev/block/nandm");
 			break;
-		case 3:
-		{
-			break;
-		}
-
 		}
 	}
 }
@@ -1667,14 +1661,13 @@ void show_resize_menu()
 void show_boot_default_menu()
 {
 	static char* headers[] = {  "Set Boot Default - Currently:",
-			lookup_default_reboot(),
+			"",
 			NULL
 	};
 
 	static char* list[] = { "Set Android as default",
 			"Set Linux as default",
 			"Set Extra OS as default",
-			"Go Back",
 			NULL
 	};
 
@@ -1694,11 +1687,6 @@ void show_boot_default_menu()
 		case 2:
 			set_default_reboot(EXT_BOOT_STRING);
 			break;
-		case 3:
-		{
-			break;
-		}
-
 		}
 	}
 }

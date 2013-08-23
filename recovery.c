@@ -690,14 +690,14 @@ wipe_data(int confirm) {
     ui_print("Data wipe complete.\n");
 }
 
-static void run_resize(static char* part)
+void run_resize(char* part)
 {
 	int ret = 0;
 
 	ret = resize_ext2_device(part);
 	if(ret == RESIZE_ERR_RESZ){
 		// Resize failed
-		LOGE("Resize failed for %s\n", part);
+		LOGE("File check passed, Resize failed for %s\n", part);
 	}else  if(ret == RESIZE_ERR_E2FS){
 		// File system check failed
 		LOGE("File system check failed for %s\n", part);
@@ -708,11 +708,11 @@ static void run_resize(static char* part)
 
 }
 
-static void run_resize(){
+void run_resize_all(){
 	int ret = 0;
-	static char* and_part  = "/dev/block/nandd"; // Android system partition
-	static char* lin_part  = "/dev/block/nandk"; // Linux system partition
-	static char* ext_part  = "/dev/block/nandm"; // Extra system partition
+	char* and_part  = "/dev/block/nandd"; // Android system partition
+	char* lin_part  = "/dev/block/nandk"; // Linux system partition
+	char* ext_part  = "/dev/block/nandm"; // Extra system partition
 	int doand=0,dolin=1,doext = 0;
 
 	if(doand){
@@ -804,11 +804,11 @@ prompt_and_wait() {
                 return;
 
             case ITEM_SETDEFBOOT:
-            	show_boot_default_menu()
+            	show_boot_default_menu();
                 break;
 
             case ITEM_RESIZE:
-            	show_resize_menu()
+            	show_resize_menu();
                 //run_resize();
                 break;
 

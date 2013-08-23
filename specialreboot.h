@@ -10,7 +10,8 @@
 #include <sys/mount.h>  // for _IOW, _IOR, mount()
 #include <unistd.h>
 #include <errno.h>
-#include <libio.h>
+//#include <libio.h>
+#include <stdio.h>
 
 // I'm not going to bother and try and included these from the right spots, this is a universal thing
 #define  LINUX_REBOOT_CMD_RESTART 0x01234567
@@ -25,10 +26,10 @@
 #define EXT_BOOT_STRING "extra"
 #define DEF_BOOT_STRING "default"
 
-int special_reboot( char *arg );
-int mount_nanda();
-char* lookup_default_reboot();
-int special_reboot_default( );
+//int special_reboot( char *arg );
+//int mount_nanda();
+//char* lookup_default_reboot();
+//int special_reboot_default( );
 
 #endif
 

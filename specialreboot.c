@@ -6,6 +6,7 @@
  */
 
 #include "specialreboot.h"
+#include "common.h"
 
 int special_reboot( char *arg )
 {
@@ -22,7 +23,7 @@ int mount_nanda()
 {
 	int ret = 0;
 
-	if( ! access(DEF_BOOT_FILE, F_OK) ){
+	if(  access(DEF_BOOT_FILE, F_OK) ){
 		const char* devname = NANDA_BLK_DEV;
 		const char* mount_point = NANDA_MNT_POINT;
 		const char* filesystem = "vfat";
@@ -87,7 +88,7 @@ int set_default_reboot( char* defbootstr)
 		}else{
 			test = fputs(defbootstr,defboot);
 
-			if( test == EOF){
+			if( test < 0){
 				LOGE("failed to write to %s default boot of %s)\n", DEF_BOOT_FILE, defbootstr);
 				ret = test;
 			}else{
@@ -110,7 +111,7 @@ int set_default_reboot( char* defbootstr)
 
 
 
-int special_reboot_default( )
+void special_reboot_default( )
 {
 
 	char* type = lookup_default_reboot();

@@ -391,7 +391,7 @@ int resize_ext2_device (const char *device) {
 
     // Run e2fsck
     char *const e2fsck[] = {E2FSCK_BIN, "-fy", device, NULL};
-    if(run_exec_process(e2fsck))
+    if(run_exec_process(e2fsck) > 2)
         return RESIZE_ERR_E2FS;
 
     // Run resize2fs

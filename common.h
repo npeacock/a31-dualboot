@@ -96,7 +96,7 @@ void ui_reset_progress();
 
 #define LOGE(...) ui_print("E:" __VA_ARGS__)
 #define LOGW(...) fprintf(stdout, "W:" __VA_ARGS__)
-#define LOGI(...) fprintf(stdout, "I:" __VA_ARGS__)
+#define LOGI(...) ui_print("I:" __VA_ARGS__)
 
 #if 0
 #define LOGV(...) fprintf(stdout, "V:" __VA_ARGS__)
