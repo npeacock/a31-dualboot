@@ -1,0 +1,16 @@
+# Current manually copied files for dual boot CWM recovery image
+
+cp  /media/Storage/allwinner/a31/SDK/android/android4.1/device/softwinner/fiber-3g/modules/modules/gt82x.ko touch.ko 
+cp  /media/Storage/allwinner/a31/SDK/android/android4.1/device/softwinner/fiber-3g/modules/modules/sw-keyboard.ko keyboard.ko 
+cp  /media/Storage/allwinner/a31/SDK/android/android4.1/device/softwinner/fiber-3g/modules/modules/disp.ko disp.ko
+cp  /media/Storage/allwinner/a31/SDK/android/android4.1/device/softwinner/fiber-3g/modules/modules/lcd.ko lcd.ko
+cp  /media/Storage/allwinner/a31/SDK/android/android4.1/device/softwinner/fiber-3g/modules/modules/hdmi.ko hdmi.ko
+cp  /media/Storage/allwinner/a31/SDK/android/android4.1/device/softwinner/fiber-3g/modules/modules/nand.ko nand.ko
+cp  /media/Storage/allwinner/a31/pack/resize2fs sbin
+mkdir mnt
+
+# Other TODO
+#- Update graphics and messages, remove CWM
+#- Maybe put CWM standard options behind 'recovery' menu
+#- Make sure physical buttons work on tablet
+
