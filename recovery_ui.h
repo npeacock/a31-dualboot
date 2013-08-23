@@ -75,18 +75,20 @@ int device_wipe_data();
 #define ITEM_REBOOT          0
 #define ITEM_REBOOT_LIN      1
 #define ITEM_REBOOT_AND      2
-#define ITEM_RESIZE          3
-#define ITEM_APPLY_EXT       4
-#define ITEM_APPLY_SDCARD    4  // historical synonym for ITEM_APPLY_EXT
-#define ITEM_APPLY_ZIP       4  // used for installing an update from a zip
-#define ITEM_WIPE_DATA       5
-#define ITEM_WIPE_CACHE      6
+#define ITEM_REBOOT_EXT      3
+#define ITEM_SETDEFBOOT      4
+#define ITEM_RESIZE          5
+#define ITEM_APPLY_EXT       6
+#define ITEM_APPLY_SDCARD    6  // historical synonym for ITEM_APPLY_EXT
+#define ITEM_APPLY_ZIP       6  // used for installing an update from a zip
+#define ITEM_WIPE_DATA       7
+#define ITEM_WIPE_CACHE      8
 // unused in cwr
-#define ITEM_APPLY_CACHE     7
-#define ITEM_NANDROID        8
-#define ITEM_PARTITION       9
-#define ITEM_ADVANCED        10
-#define ITEM_POWEROFF        11
+#define ITEM_APPLY_CACHE     9
+#define ITEM_NANDROID        10
+#define ITEM_PARTITION       11
+#define ITEM_ADVANCED        12
+#define ITEM_POWEROFF        13
 
 
 // Header text to display above the main menu.
@@ -110,5 +112,6 @@ extern int ui_handle_key(int key, int visible);
 #define POWEROFF_DEFAULT 0
 #define POWEROFF_LINUX 1
 #define POWEROFF_ANDROID 2
+#define POWEROFF_EXT 3
 
 #endif

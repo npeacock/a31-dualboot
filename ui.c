@@ -893,7 +893,7 @@ int ui_wait_key()
                                         &timeout);
         }
         if(rc == ETIMEDOUT && initial_key){
-        	special_reboot("default");
+        	special_reboot_default();
         }
     } while (usb_connected() && key_queue_len == 0);
 

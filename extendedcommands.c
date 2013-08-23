@@ -42,6 +42,7 @@
 #include "cutils/android_reboot.h"
 
 #include "adb_install.h"
+#include "specialreboot.h"
 
 int signature_check_enabled = 1;
 int script_assert_enabled = 1;
@@ -1653,6 +1654,45 @@ void show_resize_menu()
 		case 2:
 			static char* ext_part  = "/dev/block/nandm"; // Extra system partition
 			resize_part(ext_part);
+			break;
+		case 3:
+		{
+			break;
+		}
+
+		}
+	}
+}
+
+void show_boot_default_menu()
+{
+	static char* headers[] = {  "Set Boot Default - Currently:",
+			lookup_default_reboot(),
+			NULL
+	};
+
+	static char* list[] = { "Set Android as default",
+			"Set Linux as default",
+			"Set Extra OS as default",
+			"Go Back",
+			NULL
+	};
+
+	for (;;)
+	{
+		int chosen_item = get_filtered_menu_selection(headers, list, 0, 0, sizeof(list) / sizeof(char*));
+		if (chosen_item == GO_BACK)
+			break;
+		switch (chosen_item)
+		{
+		case 0:
+			set_default_reboot(AND_BOOT_STRING);
+			break;
+		case 1:
+			set_default_reboot(LIN_BOOT_STRING);
+			break;
+		case 2:
+			set_default_reboot(EXT_BOOT_STRING);
 			break;
 		case 3:
 		{

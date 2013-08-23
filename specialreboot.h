@@ -20,8 +20,9 @@
 #define NANDA_MNT_POINT "/mnt"
 #define DEF_BOOT_FILE "/mnt/default-boot.conf"
 
-#define LINUX_BOOT_STRING "linux"
+#define LIN_BOOT_STRING "linux"
 #define AND_BOOT_STRING "android"
+#define EXT_BOOT_STRING "extra"
 #define DEF_BOOT_STRING "default"
 
 int special_reboot( char *arg );

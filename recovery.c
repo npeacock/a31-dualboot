@@ -49,6 +49,7 @@
 #include "dedupe/dedupe.h"
 
 #include "mmcutils/mmcutils.h"
+#include "specialreboot.h"
 
 struct selabel_handle *sehandle = NULL;
 
@@ -797,6 +798,20 @@ prompt_and_wait() {
                 powerofftype=POWEROFF_ANDROID;
                 return;
 
+            case ITEM_REBOOT_EXT:
+                poweroff=0;
+                powerofftype=POWEROFF_ANDROID;
+                return;
+
+            case ITEM_SETDEFBOOT:
+            	show_boot_default_menu()
+                break;
+
+            case ITEM_RESIZE:
+            	show_resize_menu()
+                //run_resize();
+                break;
+
             case ITEM_WIPE_DATA:
                 wipe_data(ui_text_visible());
                 if (!ui_text_visible()) return;
@@ -831,11 +846,6 @@ prompt_and_wait() {
             case ITEM_POWEROFF:
                 poweroff = 1;
                 return;
-
-            case ITEM_RESIZE:
-            	show_resize_menu()
-                //run_resize();
-                break;
         }
     }
 }
@@ -1091,13 +1101,16 @@ main(int argc, char **argv) {
     if(!poweroff) {
     	if(powerofftype ==POWEROFF_LINUX) {
     		ui_print("Booting into Linux...\n");
-    		special_reboot(LINUX_BOOT_STRING);
+    		special_reboot(LIN_BOOT_STRING);
     	}else if(powerofftype ==POWEROFF_ANDROID){
     		ui_print("Booting into Android...\n");
     		special_reboot(AND_BOOT_STRING);
+    	}else if(powerofftype ==POWEROFF_EXT){
+    		ui_print("Booting into Extra...\n");
+    		special_reboot(EXT_BOOT_STRING);
     	}else{
     		ui_print("Booting into default...\n");
-    		special_reboot(DEF_BOOT_STRING);
+    		special_reboot_default();
     	}
     }
     else {
