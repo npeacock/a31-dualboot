@@ -1618,3 +1618,48 @@ int verify_root_and_recovery() {
     ensure_path_unmounted("/system");
     return ret;
 }
+
+
+
+void show_resize_menu()
+{
+	static char* headers[] = {  "Resize Menu",
+			"",
+			NULL
+	};
+
+	static char* list[] = { "Resize nandd - Android system partition",
+			"Resize nandk - Linux partition",
+			"Resize nandm - Extra OS partition",
+			"Go Back",
+			NULL
+	};
+
+	for (;;)
+	{
+		int chosen_item = get_filtered_menu_selection(headers, list, 0, 0, sizeof(list) / sizeof(char*));
+		if (chosen_item == GO_BACK)
+			break;
+		switch (chosen_item)
+		{
+		case 0:
+			static char* and_part  = "/dev/block/nandd"; // Android system partition
+			resize_part(and_part);
+			break;
+		case 1:
+			static char* lin_part  = "/dev/block/nandk"; // Linux system partition
+			resize_part(lin_part);
+			break;
+		case 2:
+			static char* ext_part  = "/dev/block/nandm"; // Extra system partition
+			resize_part(ext_part);
+			break;
+		case 3:
+		{
+			break;
+		}
+
+		}
+	}
+}
+

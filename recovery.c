@@ -689,6 +689,24 @@ wipe_data(int confirm) {
     ui_print("Data wipe complete.\n");
 }
 
+static void run_resize(static char* part)
+{
+	int ret = 0;
+
+	ret = resize_ext2_device(part);
+	if(ret == RESIZE_ERR_RESZ){
+		// Resize failed
+		LOGE("Resize failed for %s\n", part);
+	}else  if(ret == RESIZE_ERR_E2FS){
+		// File system check failed
+		LOGE("File system check failed for %s\n", part);
+	}else{
+		// Its all good
+		LOGI("Resize successful for %s\n", part);
+	}
+
+}
+
 static void run_resize(){
 	int ret = 0;
 	static char* and_part  = "/dev/block/nandd"; // Android system partition
@@ -815,7 +833,8 @@ prompt_and_wait() {
                 return;
 
             case ITEM_RESIZE:
-                run_resize();
+            	show_resize_menu()
+                //run_resize();
                 break;
         }
     }
@@ -1067,17 +1086,18 @@ main(int argc, char **argv) {
     // Otherwise, get ready to boot the main system...
     finish_recovery(send_intent);
 
+
     sync();
     if(!poweroff) {
     	if(powerofftype ==POWEROFF_LINUX) {
     		ui_print("Booting into Linux...\n");
-    		special_reboot("linux");
+    		special_reboot(LINUX_BOOT_STRING);
     	}else if(powerofftype ==POWEROFF_ANDROID){
     		ui_print("Booting into Android...\n");
-    		special_reboot("android");
+    		special_reboot(AND_BOOT_STRING);
     	}else{
     		ui_print("Booting into default...\n");
-    		special_reboot("default");
+    		special_reboot(DEF_BOOT_STRING);
     	}
     }
     else {
